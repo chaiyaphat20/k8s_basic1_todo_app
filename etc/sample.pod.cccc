@@ -1,0 +1,16 @@
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: client-pods
+#   labels:
+#     app: client #ใช้ Ref
+# spec:  #Detail ของ docker
+#   containers:
+#   - name: client
+#     image: dekcode/todo-app:v4
+#     resources:
+#       limits:
+#         memory: "128Mi"  #หน่วยความจำขนาดไม่เกิน 128 เมกะไบต์ (MiB)
+#         cpu: "500m" #CPU แบบปกติมักมีค่าเป็น 1000m หรือ 1 CPU เต็ม
+#     ports:
+#       - containerPort: 80 #กำนหดตาม Expose ของ container

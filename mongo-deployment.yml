@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template: 
+    metadata:
+      name: mongo-pods
+      labels:
+        app: mongo 
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:latest
+        volumeMounts:
+          - name: mongo-storage
+            mountPath: /data/db #แล้วแต่ path ที่เก็บ data ของแต่ละ db เช่น mongo เก็บข้อมูลที่ /data/db
+        resources:
+          limits:
+            memory: "128Mi" 
+            cpu: "500m" 
+        ports:
+          - containerPort: 27017
+      volumes:
+          - name: mongo-storage
+            persistentVolumeClaim:
+              claimName: mongo-pvc  #[PersistentVolumeClaim].metadata.name
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  type: ClusterIP 
+  selector:
+    app: mongo 
+  ports:
+    - port: 27017 
+      targetPort: 27017

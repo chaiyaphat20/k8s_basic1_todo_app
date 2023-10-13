@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: server
+  template: 
+    metadata:
+      name: server-pods
+      labels:
+        app: server 
+    spec:
+      containers:
+      - name: server
+        image: dekcode/todo-api:v5
+        resources:
+          limits:
+            memory: "128Mi" 
+            cpu: "500m" 
+        ports:
+          - containerPort: 80 
+#http://localhost:30002/api/health
+#http://localhost:30002/api/todo
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service #ref ingress  [Service]metadata.name
+spec:
+  type: ClusterIP 
+  selector:
+    app: server
+  ports:
+    - port: 80 #ref ingress [Service]spec.ports.port
+      targetPort: 80

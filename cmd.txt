@@ -1,0 +1,36 @@
+1.kubectl apply -f ./sample.pod.yml 
+รัน file 
+
+1.2 kubectl apply -f .
+รันทุก file 
+
+2.kubectl get all 
+ดู all 
+
+3.kubectl get pod
+ดู pod
+
+4.kubectl logs <clinet-pods>
+ดู log
+
+5.kubectl delete pods <web-3476088249-w66jr>
+delete pod
+
+6.kubectl delete deployments <client-deployment>
+
+5.kubectl delete all --all
+
+
+6.setup ingress
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
+
+7.ดู ingress config
+kubectl get ingress
+
+
+8.ดู pvc 
+kubectl get pvc
+
+9.เทสลบ deployment
+kubectl delete all --all
+แล้วเล่น ข้อมูลยังอยู่

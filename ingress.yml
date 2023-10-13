@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations: 
+    kubernetes.io/ingress.class: nginx #เวลาใช้ ingress จะเอา nginx มารัน
+    nginx.ingress.kubernetes.io/use-regex: "true" #กำหนดให้ใช้ regex map path
+spec:
+  rules:
+  - host: todo.com
+    http:
+      paths:
+      - path: /api/
+        pathType: Prefix
+        backend:
+          service:
+            name: server-service #[Server-Service]metadata.name
+            port: 
+              number: 80 #[Service-Service]spec.ports.port
+      - path: /?(.*)  #ตัวอักษรอะไรก็ตาที่ไม่ใช่ /api จะมาที่ path นี้
+        pathType: Prefix
+        backend:
+          service:
+            name: client-service #[Client-Service]metadata.name
+            port: 
+              number: 80 #[Client-Service]spec.ports.port

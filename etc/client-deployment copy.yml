@@ -1,0 +1,37 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: client-deployment
+# spec:
+#   replicas: 3 # จำนวน Pod ที่จะสร้าง ในที่นี้สร้าง 1 Pod
+#   selector:
+#     matchLabels:
+#       app: client
+#   template:  #หลังจากนี้คือการ config container
+#     metadata:
+#       name: client-pods
+#       labels:
+#         app: client #ใช้ Ref
+#     spec:  #Detail ของ docker
+#       containers:
+#       - name: client
+#         image: dekcode/todo-app:v4
+#         resources:
+#           limits:
+#             memory: "128Mi"  #หน่วยความจำขนาดไม่เกิน 128 เมกะไบต์ (MiB)
+#             cpu: "500m" #CPU แบบปกติมักมีค่าเป็น 1000m หรือ 1 CPU เต็ม
+#         ports:
+#           - containerPort: 80 #กำนหดตาม Expose ของ container
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: client-service
+# spec:
+#   type: NodePort #ถ้าไม่ใส่ จะ เป็น ClusterIP
+#   selector:
+#     app: client #มาจาก Deployment spec.selector.matchLabels.app = client
+#   ports:
+#     - port: 80 #นิยมให้ตรงกับ target port เพื่อให้ clusters เข้าถึงได้  แต่ใช้ 8080 เพื่อเทส
+#       targetPort: 80 #spec.template.spec.ports.containerPort  ดูว่า port ที่ container มันรัน ใช้ port อะไร
+#       nodePort: 30001 #ใช้ได้ตั้งแต่ 30000-32767

@@ -1,0 +1,14 @@
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: client-service
+# spec:
+#   type: NodePort #ถ้าไม่ใส่ จะ เป็น ClusterIP
+#   selector:
+#     app: client #มาจาก Deployment spec.selector.matchLabels.app = client
+#   ports:
+#     - port: 8080 #นิยมให้ตรงกับ target port เพื่อให้ clusters เข้าถึงได้  แต่ใช้ 8080 เพื่อเทส
+#       targetPort: 80 #spec.template.spec.ports.containerPort  ดูว่า port ที่ container มันรัน ใช้ port อะไร
+#       nodePort: 30001 #ใช้ได้ตั้งแต่ 30000-32767
+
+# #คล้ายๆ docker build -p nodePort:port เมื่อเข้า จากเว็ป เข้า port 30001 มันจะไปที่ port 8080 ซึ่งจะ redirect ไปที่ container Expose IP 80
